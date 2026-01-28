@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AgroConnect</title>
+    <link rel="icon" type="image/png" href="public/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --earth-brown: #3d2817;
+            --fertile-green: #2d5016;
+            --harvest-gold: #d4a574;
+            --sky-blue: #7fb3d5;
+            --sun-yellow: #f4c430;
+            --soil-dark: #1a0f08;
+            --cream: #faf6f0;
+            --sage: #9caf88;
+            --terracotta: #c65d3b;
+            --success-green: #27ae60;
+            --error-red: #e74c3c;
+            --warning-orange: #e67e22;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Karla', sans-serif;
+            background: var(--cream);
+            color: var(--earth-brown);
+            overflow-x: hidden;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--fertile-green) 0%, var(--earth-brown) 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo h2 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-menu {
+            flex: 1;
+            padding: 1.5rem 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--sun-yellow);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-item.active::before {
+            transform: scaleY(1);
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--harvest-gold);
+        }
+
+        .dashboard-header h1 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--soil-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--earth-brown);
+            opacity: 0.7;
+            font-size: 0.95rem;
+        }
+
+        .user-badge {
+            background: linear-gradient(135deg, var(--fertile-green) 0%, var(--earth-brown) 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(45, 80, 22, 0.3);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--harvest-gold);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.05) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            flex-shrink: 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--earth-brown);
+            opacity: 0.7;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--fertile-green);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--harvest-gold);
+        }
+
+        .dashboard-card h3 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--soil-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Karla', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--fertile-green) 0%, var(--earth-brown) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(45, 80, 22, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 80, 22, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--harvest-gold);
+        }
+
+        .section-header h2 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--soil-dark);
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--harvest-gold);
+        }
+
+        .profile-field {
+            display: flex;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--cream);
+        }
+
+        .profile-field:last-child {
+            border-bottom: none;
+        }
+
+        .field-label {
+            font-weight: 600;
+            color: var(--earth-brown);
+            width: 150px;
+            flex-shrink: 0;
+        }
+
+        .field-value {
+            color: var(--soil-dark);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--earth-brown);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e8dcc8;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: var(--cream);
+            font-family: 'Karla', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--fertile-green);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(45, 80, 22, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--harvest-gold);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content h3 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--soil-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Loader */
+        .loader {
+            text-align: center;
+            padding: 2rem;
+            color: var(--earth-brown);
+            opacity: 0.7;
+        }
+
+        /* Crop Plans */
+        #cropPlansList {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .crop-plan-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--harvest-gold);
+            transition: all 0.3s ease;
+        }
+
+        .crop-plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .crop-plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .crop-plan-name {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--fertile-green);
+        }
+
+        .crop-plan-details {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .crop-plan-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--earth-brown);
+        }
+
+        /* Market Prices */
+        #marketPricesList {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .market-price-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--harvest-gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .market-price-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .market-commodity {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--soil-dark);
+        }
+
+        .market-price {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--fertile-green);
+        }
+
+        /* Weather */
+        #weatherContent {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .weather-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--harvest-gold);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .weather-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .weather-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .weather-temp {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--fertile-green);
+        }
+
+        .weather-date {
+            font-size: 0.9rem;
+            color: var(--earth-brown);
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
+        /* Schemes */
+        .scheme-filters {
+            margin-bottom: 1.5rem;
+        }
+
+        .scheme-filters select {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e8dcc8;
+            border-radius: 10px;
+            background: white;
+            font-family: 'Karla', sans-serif;
+            min-width: 200px;
+        }
+
+        #schemesList {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .scheme-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--harvest-gold);
+            transition: all 0.3s ease;
+        }
+
+        .scheme-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .scheme-name {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--fertile-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .scheme-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--cream);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--earth-brown);
+            margin-bottom: 1rem;
+        }
+
+        .scheme-description {
+            color: var(--earth-brown);
+            line-height: 1.6;
+        }
+
+        /* Recommendations */
+        #recommendationsList {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .recommendation-card {
+            background: linear-gradient(135deg, var(--sage) 0%, var(--harvest-gold) 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .recommendation-crop {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendation-reason {
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .quick-stats {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            #cropPlansList,
+            #recommendationsList {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--earth-brown);
+            opacity: 0.7;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--fertile-green) 0%, var(--earth-brown) 100%);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo">
+                <h2>🌾 AgroConnect</h2>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-section="overview">
+                    <span class="nav-icon">📊</span>
+                    <span>Overview</span>
+                </a>
+                <a href="#" class="nav-item" data-section="profile">
+                    <span class="nav-icon">👤</span>
+                    <span>My Profile</span>
+                </a>
+                <a href="#" class="nav-item" data-section="crops">
+                    <span class="nav-icon">🌱</span>
+                    <span>Crop Planner</span>
+                </a>
+                <a href="#" class="nav-item" data-section="market">
+                    <span class="nav-icon">💹</span>
+                    <span>Market Prices</span>
+                </a>
+                <a href="#" class="nav-item" data-section="weather">
+                    <span class="nav-icon">🌤️</span>
+                    <span>Weather</span>
+                </a>
+                <a href="#" class="nav-item" data-section="schemes">
+                    <span class="nav-icon">🏛️</span>
+                    <span>Govt Schemes</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn btn-secondary btn-full">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" id="menuToggle">☰</button>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div>
+                    <h1 id="welcomeText">Welcome back!</h1>
+                    <p class="subtitle" id="currentDate"></p>
+                </div>
+                <div class="header-actions">
+                    <span class="user-badge" id="userBadge">Loading...</span>
+                </div>
+            </header>
+
+            <!-- Overview Section -->
+            <section class="content-section active" id="overviewSection">
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">🌱</div>
+                        <div class="stat-details">
+                            <p class="stat-label">Active Crops</p>
+                            <p class="stat-value" id="activeCropsCount">-</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🌡️</div>
+                        <div class="stat-details">
+                            <p class="stat-label">Temperature</p>
+                            <p class="stat-value" id="currentTemp">-</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-details">
+                            <p class="stat-label">Best Price Today</p>
+                            <p class="stat-value" id="bestPrice">-</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📄</div>
+                        <div class="stat-details">
+                            <p class="stat-label">Active Schemes</p>
+                            <p class="stat-value" id="schemesCount">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>🎯 Today's Advisory</h3>
+                        <div id="todayAdvisory">
+                            <div class="loader">Loading advisory...</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>📊 Quick Market Update</h3>
+                        <div id="quickMarket">
+                            <div class="loader">Loading market data...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section class="content-section" id="profileSection">
+                <div class="section-header">
+                    <h2>My Profile</h2>
+                    <button class="btn btn-primary" id="editProfileBtn">Edit Profile</button>
+                </div>
+
+                <div class="profile-card">
+                    <div id="profileView">
+                        <div class="profile-field">
+                            <span class="field-label">Name:</span>
+                            <span class="field-value" id="profileName">-</span>
+                        </div>
+                        <div class="profile-field">
+                            <span class="field-label">Email:</span>
+                            <span class="field-value" id="profileEmail">-</span>
+                        </div>
+                        <div class="profile-field">
+                            <span class="field-label">Phone:</span>
+                            <span class="field-value" id="profilePhone">-</span>
+                        </div>
+                        <div class="profile-field">
+                            <span class="field-label">Village:</span>
+                            <span class="field-value" id="profileVillage">-</span>
+                        </div>
+                        <div class="profile-field">
+                            <span class="field-label">State:</span>
+                            <span class="field-value" id="profileState">-</span>
+                        </div>
+                        <div class="profile-field">
+                            <span class="field-label">Land Size:</span>
+                            <span class="field-value" id="profileLandSize">-</span>
+                        </div>
+                        <div class="profile-field">
+                            <span class="field-label">Soil Type:</span>
+                            <span class="field-value" id="profileSoilType">-</span>
+                        </div>
+                    </div>
+
+                    <div id="profileEdit" style="display: none;">
+                        <form id="profileEditForm">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" id="editName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" id="editPhone">
+                            </div>
+                            <div class="form-group">
+                                <label>Village</label>
+                                <input type="text" id="editVillage">
+                            </div>
+                            <div class="form-group">
+                                <label>Land Size (acres)</label>
+                                <input type="number" id="editLandSize" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label>Soil Type</label>
+                                <select id="editSoilType">
+                                    <option value="Black Soil">Black Soil</option>
+                                    <option value="Red Soil">Red Soil</option>
+                                    <option value="Alluvial Soil">Alluvial Soil</option>
+                                    <option value="Laterite Soil">Laterite Soil</option>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button type="button" class="btn btn-secondary" id="cancelEditBtn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Crop Planner Section -->
+            <section class="content-section" id="cropsSection">
+                <div class="section-header">
+                    <h2>Crop Planner</h2>
+                    <button class="btn btn-primary" id="addCropBtn">+ Add Crop Plan</button>
+                </div>
+
+                <div id="cropPlansList"></div>
+
+                <div id="cropRecommendations" style="margin-top: 30px;">
+                    <h3 style="margin-bottom: 20px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; color: var(--soil-dark);">🌟 Recommended Crops</h3>
+                    <div id="recommendationsList"></div>
+                </div>
+
+                <div id="addCropForm" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <h3>Create New Crop Plan</h3>
+                        <form id="newCropForm">
+                            <!-- Row 1: Basic Info -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Crop Name *</label>
+                                    <input type="text" id="newCropName" required placeholder="e.g., Wheat, Rice, Cotton">
+                                </div>
+                                <div class="form-group">
+                                    <label>Season *</label>
+                                    <select id="newCropSeason" required>
+                                        <option value="Kharif">Kharif (Monsoon)</option>
+                                        <option value="Rabi">Rabi (Winter)</option>
+                                        <option value="Zaid">Zaid (Summer)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Row 2: Land & Soil -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Land Size (acres) *</label>
+                                    <input type="number" id="newCropLandSize" step="0.1" required placeholder="e.g., 5.5">
+                                </div>
+                                <div class="form-group">
+                                    <label>Soil Type</label>
+                                    <select id="newCropSoilType">
+                                        <option value="">Select soil type</option>
+                                        <option value="Black Soil">Black Soil</option>
+                                        <option value="Red Soil">Red Soil</option>
+                                        <option value="Alluvial Soil">Alluvial Soil</option>
+                                        <option value="Laterite Soil">Laterite Soil</option>
+                                        <option value="Clay">Clay</option>
+                                        <option value="Sandy">Sandy</option>
+                                        <option value="Loamy">Loamy</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Row 3: Irrigation & Water -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Irrigation Type</label>
+                                    <select id="newCropIrrigation">
+                                        <option value="">Select irrigation type</option>
+                                        <option value="Drip">Drip Irrigation</option>
+                                        <option value="Sprinkler">Sprinkler</option>
+                                        <option value="Flood">Flood Irrigation</option>
+                                        <option value="Rainfed">Rainfed</option>
+                                        <option value="Mixed">Mixed</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Water Availability</label>
+                                    <select id="newCropWater">
+                                        <option value="">Select water availability</option>
+                                        <option value="Abundant">Abundant</option>
+                                        <option value="Moderate">Moderate</option>
+                                        <option value="Limited">Limited</option>
+                                        <option value="Scarce">Scarce</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Row 4: Previous Crop & Method -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Previous Crop</label>
+                                    <input type="text" id="newCropPrevious" placeholder="What was grown last season?">
+                                </div>
+                                <div class="form-group">
+                                    <label>Farming Method</label>
+                                    <select id="newCropMethod">
+                                        <option value="">Select farming method</option>
+                                        <option value="Organic">Organic</option>
+                                        <option value="Conventional">Conventional</option>
+                                        <option value="Mixed">Mixed</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Row 5: Yield & Budget -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Expected Yield (quintals)</label>
+                                    <input type="number" id="newCropYield" step="0.1" placeholder="e.g., 25">
+                                </div>
+                                <div class="form-group">
+                                    <label>Budget (₹)</label>
+                                    <input type="number" id="newCropBudget" step="1000" placeholder="e.g., 50000">
+                                </div>
+                            </div>
+
+                            <!-- Row 6: Sowing Date -->
+                            <div class="form-group">
+                                <label>Sowing Date</label>
+                                <input type="date" id="newCropSowingDate">
+                            </div>
+
+                            <!-- Row 7: Notes -->
+                            <div class="form-group">
+                                <label>Additional Notes</label>
+                                <textarea id="newCropNotes" rows="3" placeholder="Any specific concerns or requirements..."></textarea>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Create Plan</button>
+                                <button type="button" class="btn btn-secondary" id="closeCropFormBtn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Market Section -->
+            <section class="content-section" id="marketSection">
+                <div class="section-header">
+                    <h2>Live Market Prices</h2>
+                    <button class="btn btn-primary" id="refreshMarketBtn">🔄 Refresh</button>
+                </div>
+
+                <div id="marketPricesList"></div>
+            </section>
+
+            <!-- Weather Section -->
+            <section class="content-section" id="weatherSection">
+                <div class="section-header">
+                    <h2>Weather Forecast</h2>
+                </div>
+
+                <div id="weatherContent"></div>
+            </section>
+
+            <!-- Schemes Section -->
+            <section class="content-section" id="schemesSection">
+                <div class="section-header">
+                    <h2>Government Schemes</h2>
+                </div>
+
+                <div class="scheme-filters">
+                    <select id="schemeCategory">
+                        <option value="">All Categories</option>
+                        <option value="Financial Support">Financial Support</option>
+                        <option value="Insurance">Insurance</option>
+                        <option value="Credit">Credit</option>
+                        <option value="Infrastructure">Infrastructure</option>
+                    </select>
+                </div>
+
+                <div id="schemesList"></div>
+            </section>
+        </main>
+    </div>
+
+    <script type="module" src="js/dashboard.js"></script>
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1024 && 
+                    !sidebar.contains(e.target) && 
+                    !menuToggle.contains(e.target) &&
+                    sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

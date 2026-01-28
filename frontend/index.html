@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroConnect - Empowering Farmers Through Technology</title>
+    <link rel="icon" type="image/png" href="public/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --earth-brown: #3d2817;
+            --fertile-green: #2d5016;
+            --harvest-gold: #d4a574;
+            --sky-blue: #7fb3d5;
+            --sun-yellow: #f4c430;
+            --soil-dark: #1a0f08;
+            --cream: #faf6f0;
+            --sage: #9caf88;
+            --terracotta: #c65d3b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Karla', sans-serif;
+            color: var(--earth-brown);
+            background: var(--cream);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 246, 240, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 2px solid var(--harvest-gold);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .navbar .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--fertile-green);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--earth-brown);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--fertile-green);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--fertile-green);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: 'Karla', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--fertile-green);
+            color: white;
+            box-shadow: 0 4px 15px rgba(45, 80, 22, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--earth-brown);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 80, 22, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--fertile-green);
+            border: 2px solid var(--fertile-green);
+        }
+
+        .btn-outline:hover {
+            background: var(--fertile-green);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #faf6f0 0%, #e8dcc8 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -10%;
+            width: 60%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.15) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+
+        .hero .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--soil-dark);
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-content h1 .highlight {
+            color: var(--fertile-green);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-content h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: rgba(212, 165, 116, 0.4);
+            z-index: -1;
+            transform: skew(-12deg);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: var(--earth-brown);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--fertile-green);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--earth-brown);
+            opacity: 0.8;
+        }
+
+        .hero-visual {
+            position: relative;
+            animation: fadeInRight 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .floating-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .float-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid var(--harvest-gold);
+        }
+
+        .float-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        .float-card:nth-child(1) {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .float-card:nth-child(2) {
+            animation: float 6s ease-in-out infinite 1.5s;
+        }
+
+        .float-card:nth-child(3) {
+            animation: float 6s ease-in-out infinite 3s;
+        }
+
+        .float-card:nth-child(4) {
+            animation: float 6s ease-in-out infinite 4.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--fertile-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--earth-brown);
+            opacity: 0.8;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 2rem;
+            background: white;
+            position: relative;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--harvest-gold) 0%, var(--fertile-green) 100%);
+        }
+
+        .section-header {
+            max-width: 800px;
+            margin: 0 auto 5rem;
+            text-align: center;
+        }
+
+        .section-label {
+            font-weight: 600;
+            color: var(--fertile-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--soil-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: var(--earth-brown);
+            opacity: 0.8;
+            line-height: 1.8;
+        }
+
+        .features-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background: var(--cream);
+            padding: 3rem;
+            border-radius: 25px;
+            transition: all 0.4s;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--harvest-gold);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--soil-dark);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--earth-brown);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.8rem;
+            position: relative;
+            color: var(--earth-brown);
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--fertile-green);
+            font-weight: bold;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 8rem 2rem;
+            background: linear-gradient(135deg, var(--fertile-green) 0%, var(--earth-brown) 100%);
+            color: white;
+        }
+
+        .steps-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .step {
+            position: relative;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s;
+        }
+
+        .step:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-10px);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 2.5rem;
+            width: 50px;
+            height: 50px;
+            background: var(--sun-yellow);
+            color: var(--soil-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .step-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .step-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .step-description {
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 8rem 2rem;
+            background: white;
+        }
+
+        .benefits-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .benefit-image {
+            position: relative;
+        }
+
+        .benefit-image-placeholder {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--sage) 0%, var(--harvest-gold) 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .benefit-content {
+            padding: 2rem;
+        }
+
+        .benefit-item {
+            margin-bottom: 3rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .benefit-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 30px;
+            height: 30px;
+            background: var(--fertile-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .benefit-item::after {
+            content: '✓';
+            position: absolute;
+            left: 8px;
+            top: 5px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .benefit-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--soil-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-description {
+            color: var(--earth-brown);
+            opacity: 0.8;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 8rem 2rem;
+            background: var(--cream);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        .cta-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--soil-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .cta-description {
+            font-size: 1.3rem;
+            color: var(--earth-brown);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            color: var(--earth-brown);
+        }
+
+        .trust-icon {
+            font-size: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--soil-dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--harvest-gold);
+        }
+
+        .footer-description {
+            opacity: 0.8;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--harvest-gold);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            opacity: 0.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .floating-cards {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a:not(.btn) {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-title {
+                font-size: 2.5rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <span class="logo-icon">🌾</span>
+                AgroConnect
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#benefits">Benefits</a>
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="login.html#signup" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>
+                    Empowering India's <span class="highlight">Farmers</span> Through Technology
+                </h1>
+                <p>
+                    Access real-time market prices, weather forecasts, expert farming advice, and government schemes — all in one powerful digital platform built for modern farmers.
+                </p>
+                <div class="hero-cta">
+                    <a href="login.html#signup" class="btn btn-primary">Start Free Today</a>
+                    <a href="#how-it-works" class="btn btn-outline">See How It Works</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">10k+</span>
+                        <span class="stat-label">Active Farmers</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Mandis Covered</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Live Updates</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-cards">
+                    <div class="float-card">
+                        <span class="card-icon">📊</span>
+                        <div class="card-title">Live Market Prices</div>
+                        <div class="card-desc">Real-time mandi rates updated daily</div>
+                    </div>
+                    <div class="float-card">
+                        <span class="card-icon">🌦️</span>
+                        <div class="card-title">Weather Forecast</div>
+                        <div class="card-desc">5-day predictions for your location</div>
+                    </div>
+                    <div class="float-card">
+                        <span class="card-icon">💰</span>
+                        <div class="card-title">Govt Schemes</div>
+                        <div class="card-desc">Access subsidies & benefits</div>
+                    </div>
+                    <div class="float-card">
+                        <span class="card-icon">🌱</span>
+                        <div class="card-title">Smart Advisory</div>
+                        <div class="card-desc">Expert farming recommendations</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <div class="section-label">Powerful Features</div>
+            <h2 class="section-title">Everything You Need to Farm Smarter</h2>
+            <p class="section-description">
+                From digital record-keeping to real-time market intelligence, AgroConnect provides all the tools modern farmers need to succeed.
+            </p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">📝</span>
+                <h3 class="feature-title">Digital Farm Profile</h3>
+                <p class="feature-description">
+                    Say goodbye to paper records. Store all your farm data securely in the cloud and access it anytime, anywhere.
+                </p>
+                <ul class="feature-list">
+                    <li>Land records & ownership details</li>
+                    <li>Crop history tracking</li>
+                    <li>Secure cloud storage</li>
+                    <li>Easy data retrieval</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🌱</span>
+                <h3 class="feature-title">Smart Crop Planner</h3>
+                <p class="feature-description">
+                    Get intelligent crop recommendations based on your soil type, season, and current market demand.
+                </p>
+                <ul class="feature-list">
+                    <li>Soil-based suggestions</li>
+                    <li>Seasonal crop calendar</li>
+                    <li>Market demand analysis</li>
+                    <li>Profit maximization tips</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">💹</span>
+                <h3 class="feature-title">Real-Time Market Prices</h3>
+                <p class="feature-description">
+                    Access live mandi prices updated daily from across India. Know the best time and place to sell your produce.
+                </p>
+                <ul class="feature-list">
+                    <li>Daily price updates</li>
+                    <li>500+ mandis covered</li>
+                    <li>Price trend analysis</li>
+                    <li>Best selling alerts</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">👨‍🌾</span>
+                <h3 class="feature-title">Expert Farm Advisory</h3>
+                <p class="feature-description">
+                    Get personalized farming advice based on weather conditions. Know exactly when to irrigate, spray, or harvest.
+                </p>
+                <ul class="feature-list">
+                    <li>Weather-based recommendations</li>
+                    <li>Pest & disease alerts</li>
+                    <li>Irrigation scheduling</li>
+                    <li>Harvest timing advice</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🏛️</span>
+                <h3 class="feature-title">Government Schemes</h3>
+                <p class="feature-description">
+                    Never miss out on subsidies and benefits. Access all government schemes in one place with easy application processes.
+                </p>
+                <ul class="feature-list">
+                    <li>Complete scheme database</li>
+                    <li>Eligibility checker</li>
+                    <li>Application guidance</li>
+                    <li>Subsidy tracking</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🌤️</span>
+                <h3 class="feature-title">Weather Forecast</h3>
+                <p class="feature-description">
+                    5-day weather predictions tailored to your farm location. Plan your activities with confidence and avoid losses.
+                </p>
+                <ul class="feature-list">
+                    <li>Hyperlocal forecasts</li>
+                    <li>Rainfall predictions</li>
+                    <li>Temperature tracking</li>
+                    <li>Storm warnings</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-header">
+            <div class="section-label" style="color: var(--sun-yellow);">Simple Process</div>
+            <h2 class="section-title" style="color: white;">Get Started in 3 Easy Steps</h2>
+            <p class="section-description" style="color: rgba(255, 255, 255, 0.9);">
+                Join thousands of farmers who are already making smarter farming decisions with AgroConnect.
+            </p>
+        </div>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <span class="step-icon">📱</span>
+                <h3 class="step-title">Create Your Account</h3>
+                <p class="step-description">
+                    Sign up in minutes with just your basic details. Your farm profile is automatically created and secured.
+                </p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <span class="step-icon">🚜</span>
+                <h3 class="step-title">Add Farm Details</h3>
+                <p class="step-description">
+                    Enter your land information, crops, and location. Our smart system personalizes everything for you.
+                </p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <span class="step-icon">📈</span>
+                <h3 class="step-title">Start Growing Smarter</h3>
+                <p class="step-description">
+                    Access real-time prices, weather updates, expert advice, and government schemes — all from your dashboard.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="benefits">
+        <div class="benefits-grid">
+            <div class="benefit-image">
+                <div class="benefit-image-placeholder">
+                    🌾🚜🌱
+                </div>
+            </div>
+            <div class="benefit-content">
+                <div class="section-label">Why Choose AgroConnect</div>
+                <h2 class="section-title">Transforming Traditional Farming</h2>
+                
+                <div class="benefit-item">
+                    <h3 class="benefit-title">Make Better Selling Decisions</h3>
+                    <p class="benefit-description">
+                        With real-time market prices from 500+ mandis, you'll never have to guess when or where to sell. Maximize your profits with data-driven decisions.
+                    </p>
+                </div>
+
+                <div class="benefit-item">
+                    <h3 class="benefit-title">Reduce Crop Losses</h3>
+                    <p class="benefit-description">
+                        Get weather-based alerts and expert farming advice. Know exactly when to irrigate, spray pesticides, or harvest to minimize losses.
+                    </p>
+                </div>
+
+                <div class="benefit-item">
+                    <h3 class="benefit-title">Access Government Benefits</h3>
+                    <p class="benefit-description">
+                        Never miss subsidies or schemes again. We keep you updated on all government programs you're eligible for, with simple application processes.
+                    </p>
+                </div>
+
+                <div class="benefit-item">
+                    <h3 class="benefit-title">Plan Your Seasons Better</h3>
+                    <p class="benefit-description">
+                        Smart crop recommendations based on soil, season, and market demand help you choose the most profitable crops for your land.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Transform Your Farm?</h2>
+            <p class="cta-description">
+                Join thousands of smart farmers who are already using AgroConnect to make better farming decisions and increase their profits.
+            </p>
+            <div class="cta-buttons">
+                <a href="login.html#signup" class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 3rem;">Create Free Account</a>
+                <a href="login.html" class="btn btn-outline" style="font-size: 1.2rem; padding: 1rem 3rem;">Login to Dashboard</a>
+            </div>
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <span class="trust-icon">🔒</span>
+                    <span>Secure & Private</span>
+                </div>
+                <div class="trust-badge">
+                    <span class="trust-icon">📱</span>
+                    <span>Mobile Friendly</span>
+                </div>
+                <div class="trust-badge">
+                    <span class="trust-icon">🌐</span>
+                    <span>Real APIs</span>
+                </div>
+                <div class="trust-badge">
+                    <span class="trust-icon">✨</span>
+                    <span>Always Free</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">🌾 AgroConnect</div>
+                <p class="footer-description">
+                    Empowering Indian farmers with technology. Real-time market data, weather forecasts, and expert advice — all in one platform.
+                </p>
+                <p class="footer-description">
+                    Built with ❤️ for India's farmers.
+                </p>
+            </div>
+            <div>
+                <h4 class="footer-title">Platform</h4>
+                <ul class="footer-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#benefits">Benefits</a></li>
+                    <li><a href="login.html">Dashboard</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Market Prices</a></li>
+                    <li><a href="#">Weather Updates</a></li>
+                    <li><a href="#">Govt Schemes</a></li>
+                    <li><a href="#">Farm Advisory</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 AgroConnect. All rights reserved. Made in India for Indian Farmers.</p>
+        </div>
+    </footer>
+</body>
+</html>

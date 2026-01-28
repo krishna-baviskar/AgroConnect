@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AgroConnect</title>
+    <link rel="icon" type="image/png" href="public/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Karla:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --earth-brown: #3d2817;
+            --fertile-green: #2d5016;
+            --harvest-gold: #d4a574;
+            --sky-blue: #7fb3d5;
+            --sun-yellow: #f4c430;
+            --soil-dark: #1a0f08;
+            --cream: #faf6f0;
+            --sage: #9caf88;
+            --terracotta: #c65d3b;
+            --success-green: #27ae60;
+            --error-red: #e74c3c;
+            --warning-orange: #e67e22;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Karla', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #e8dcc8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+            animation: pulse 20s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            50% {
+                transform: scale(1.1) rotate(180deg);
+            }
+        }
+
+        .auth-page {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 1;
+            border: 3px solid var(--harvest-gold);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Visual Section */
+        .auth-visual {
+            flex: 1;
+            background: linear-gradient(135deg, var(--fertile-green) 0%, var(--earth-brown) 100%);
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L90 90 M90 10 L10 90" stroke="rgba(255,255,255,0.05)" stroke-width="2"/></svg>');
+            opacity: 0.5;
+        }
+
+        .auth-visual::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-30px, -30px);
+            }
+        }
+
+        .visual-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .visual-logo {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: rotate 20s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .visual-content h1 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .visual-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            opacity: 0.95;
+            margin-bottom: 40px;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 16px;
+            animation: slideInLeft 0.5s ease-out backwards;
+        }
+
+        .feature-list li:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .feature-list li:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .feature-list li:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .feature-list li:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .feature-list li:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            margin-right: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Auth Container */
+        .auth-container {
+            flex: 1;
+            padding: 60px 50px;
+            background: white;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-header .logo {
+            font-size: 50px;
+            margin-bottom: 15px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .auth-header h2 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 32px;
+            color: var(--soil-dark);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .auth-header p {
+            color: var(--earth-brown);
+            font-size: 15px;
+            opacity: 0.8;
+        }
+
+        /* Form Styles */
+        .auth-form {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--earth-brown);
+            font-size: 14px;
+        }
+
+        .form-group label .required {
+            color: var(--terracotta);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e8dcc8;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: var(--cream);
+            font-family: 'Karla', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--fertile-green);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(45, 80, 22, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 6px;
+            color: var(--earth-brown);
+            opacity: 0.7;
+            font-size: 13px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            z-index: 1;
+        }
+
+        .input-with-icon {
+            padding-left: 48px !important;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 20px;
+            user-select: none;
+            z-index: 2;
+            transition: transform 0.2s;
+        }
+
+        .password-toggle:hover {
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        /* Password Strength Indicator */
+        .password-strength {
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .password-strength.active {
+            opacity: 1;
+        }
+
+        .strength-bar-container {
+            position: relative;
+            height: 8px;
+            background: #e8dcc8;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .strength-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .strength-bar.weak {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+
+        .strength-bar.fair {
+            background: linear-gradient(90deg, #e67e22, #d35400);
+        }
+
+        .strength-bar.good {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+        }
+
+        .strength-bar.strong {
+            background: linear-gradient(90deg, #27ae60, #229954);
+        }
+
+        .strength-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .strength-label {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .strength-label.weak {
+            color: #e74c3c;
+        }
+
+        .strength-label.fair {
+            color: #e67e22;
+        }
+
+        .strength-label.good {
+            color: #f39c12;
+        }
+
+        .strength-label.strong {
+            color: #27ae60;
+        }
+
+        .strength-percentage {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--fertile-green);
+            animation: countUp 0.3s ease-out;
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .password-requirements {
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--cream);
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0;
+            color: var(--earth-brown);
+            opacity: 0.6;
+            transition: all 0.3s;
+        }
+
+        .requirement.met {
+            opacity: 1;
+            color: var(--success-green);
+        }
+
+        .requirement-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            transition: all 0.3s;
+        }
+
+        .requirement.met .requirement-icon {
+            background: var(--success-green);
+            border-color: var(--success-green);
+            color: white;
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Karla', sans-serif;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--fertile-green) 0%, var(--earth-brown) 100%);
+            color: white;
+            box-shadow: 0 8px 20px rgba(45, 80, 22, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(45, 80, 22, 0.4);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-text,
+        .btn-loader {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Error Message */
+        .error-message {
+            background: linear-gradient(135deg, #fee 0%, #fdd 100%);
+            color: #c33;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #c33;
+            font-size: 14px;
+            animation: shake 0.5s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(204, 51, 51, 0.2);
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-8px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(8px);
+            }
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+            font-size: 14px;
+            animation: slideInDown 0.5s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Auth Switch */
+        .auth-switch {
+            text-align: center;
+            margin-top: 24px;
+            color: var(--earth-brown);
+            font-size: 14px;
+        }
+
+        .auth-switch a {
+            color: var(--fertile-green);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .auth-switch a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--fertile-green);
+            transition: width 0.3s;
+        }
+
+        .auth-switch a:hover::after {
+            width: 100%;
+        }
+
+        .auth-switch a:hover {
+            color: var(--earth-brown);
+        }
+
+        /* Back to Home Link */
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-home a {
+            color: var(--earth-brown);
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .back-home a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .auth-page {
+                flex-direction: column;
+                max-width: 600px;
+            }
+
+            .auth-visual {
+                padding: 40px 30px;
+            }
+
+            .visual-content h1 {
+                font-size: 36px;
+            }
+
+            .auth-container {
+                padding: 40px 30px;
+                max-height: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-content h1 {
+                font-size: 28px;
+            }
+
+            .visual-logo {
+                font-size: 40px;
+            }
+
+            .auth-header h2 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-page">
+        <!-- Visual Section -->
+        <div class="auth-visual">
+            <div class="visual-content">
+                <div class="visual-logo">🌾</div>
+                <h1>AgroConnect</h1>
+                <p>Empowering farmers with technology. Join thousands of smart farmers making data-driven decisions.</p>
+
+                <ul class="feature-list">
+                    <li>📊 Real-time market prices</li>
+                    <li>🌦️ Weather forecasts & advisories</li>
+                    <li>💰 Government scheme information</li>
+                    <li>🌱 Smart crop planning tools</li>
+                    <li>📝 Digital record keeping</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Auth Container -->
+        <div class="auth-container">
+            <!-- Login Form -->
+            <div class="auth-form" id="loginForm">
+                <div class="auth-header">
+                    <div class="logo">🌱</div>
+                    <h2>Welcome Back!</h2>
+                    <p>Sign in to continue to your dashboard</p>
+                </div>
+
+                <div id="loginError" class="error-message" style="display: none;">
+                    <span style="font-size: 20px;">❌</span>
+                    <span id="loginErrorText"></span>
+                </div>
+
+                <form id="loginFormElement">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">📧</span>
+                            <input type="email" id="loginEmail" required placeholder="Enter your email address"
+                                class="input-with-icon">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="loginPassword" required placeholder="Enter your password"
+                                class="input-with-icon">
+                            <span class="password-toggle" onclick="togglePassword('loginPassword', this)">👁️</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="loginBtn">
+                        <span class="btn-text">Sign In to Dashboard</span>
+                        <span class="btn-loader" style="display: none;"><span class="spinner"></span>Signing
+                            in...</span>
+                    </button>
+                </form>
+
+                <div class="auth-switch">
+                    Don't have an account?
+                    <a href="#signup" id="showSignup">Create one now</a>
+                </div>
+
+                <div class="back-home">
+                    <a href="index.html">← Back to Home</a>
+                </div>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="auth-form" id="signupForm" style="display: none;">
+                <div class="auth-header">
+                    <div class="logo">🌾</div>
+                    <h2>Join AgroConnect</h2>
+                    <p>Create your account and start farming smarter</p>
+                </div>
+
+                <div id="signupError" class="error-message" style="display: none;">
+                    <span style="font-size: 20px;">❌</span>
+                    <span id="signupErrorText"></span>
+                </div>
+
+                <form id="signupFormElement">
+                    <div class="form-group">
+                        <label for="signupName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="signupName" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupEmail">Email Address <span class="required">*</span></label>
+                        <input type="email" id="signupEmail" required placeholder="Enter your email address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPassword">Password <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="password" id="signupPassword" required placeholder="Create a strong password">
+                            <span class="password-toggle" onclick="togglePassword('signupPassword', this)">👁️</span>
+                        </div>
+
+                        <!-- Password Strength Indicator -->
+                        <div class="password-strength" id="passwordStrength">
+                            <div class="strength-bar-container">
+                                <div class="strength-bar" id="strengthBar"></div>
+                            </div>
+                            <div class="strength-info">
+                                <span class="strength-label" id="strengthLabel">
+                                    <span id="strengthIcon"></span>
+                                    <span id="strengthText">Enter password</span>
+                                </span>
+                                <span class="strength-percentage" id="strengthPercentage">0%</span>
+                            </div>
+                            <div class="password-requirements">
+                                <div class="requirement" id="req-length">
+                                    <span class="requirement-icon"></span>
+                                    <span>At least 6 characters (8+ recommended)</span>
+                                </div>
+                                <div class="requirement" id="req-uppercase">
+                                    <span class="requirement-icon"></span>
+                                    <span>One uppercase letter</span>
+                                </div>
+                                <div class="requirement" id="req-lowercase">
+                                    <span class="requirement-icon"></span>
+                                    <span>One lowercase letter</span>
+                                </div>
+                                <div class="requirement" id="req-number">
+                                    <span class="requirement-icon"></span>
+                                    <span>One number</span>
+                                </div>
+                                <div class="requirement" id="req-special">
+                                    <span class="requirement-icon"></span>
+                                    <span>One special character (!@#$%^&*)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPhone">Phone Number</label>
+                        <input type="tel" id="signupPhone" placeholder="Enter your phone number">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="signupVillage">Village/City</label>
+                            <input type="text" id="signupVillage" placeholder="Enter your village or city">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signupState">State</label>
+                            <select id="signupState">
+                                <option value="">Select State</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="West Bengal">West Bengal</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Telangana">Telangana</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="signupLandSize">Land Size (acres)</label>
+                            <input type="number" id="signupLandSize" step="0.1" placeholder="5.5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signupSoilType">Soil Type</label>
+                            <select id="signupSoilType">
+                                <option value="">Select Soil Type</option>
+                                <option value="Black Soil">Black Soil</option>
+                                <option value="Red Soil">Red Soil</option>
+                                <option value="Alluvial Soil">Alluvial Soil</option>
+                                <option value="Laterite Soil">Laterite Soil</option>
+                                <option value="Desert Soil">Desert Soil</option>
+                                <option value="Mountain Soil">Mountain Soil</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="signupBtn">
+                        <span class="btn-text">Create Account</span>
+                        <span class="btn-loader" style="display: none;"><span class="spinner"></span>Creating
+                            account...</span>
+                    </button>
+                </form>
+
+                <div class="auth-switch">
+                    Already have an account?
+                    <a href="#login" id="showLogin">Sign in here</a>
+                </div>
+
+                <div class="back-home">
+                    <a href="index.html">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBUjAOCG0iAuBzNunjNnGGDvbLYSJ3UN0Q",
+            authDomain: "agroconnect-91cb8.firebaseapp.com",
+            projectId: "agroconnect-91cb8",
+            storageBucket: "agroconnect-91cb8.firebasestorage.app",
+            messagingSenderId: "1013303949645",
+            appId: "1:1013303949645:web:61a759a6f4013e30fb9f04",
+            measurementId: "G-N28XSHY8Y7"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const API_URL = 'http://localhost:3000/api';
+
+        // Helper function to get user-friendly error messages
+        function getErrorMessage(error) {
+            const errorCode = error.code;
+            const errorMessages = {
+                'auth/invalid-credential': 'Invalid email or password. Please check your credentials and try again.',
+                'auth/user-not-found': 'No account found with this email. Please sign up first.',
+                'auth/wrong-password': 'Incorrect password. Please try again.',
+                'auth/invalid-email': 'Invalid email address format.',
+                'auth/user-disabled': 'This account has been disabled. Please contact support.',
+                'auth/too-many-requests': 'Too many failed login attempts. Please try again later.',
+                'auth/network-request-failed': 'Network error. Please check your internet connection.',
+                'auth/email-already-in-use': 'This email is already registered. Please login instead.',
+                'auth/weak-password': 'Password is too weak. Please use a stronger password.',
+                'auth/custom-token-mismatch': 'Configuration error. Please contact support.'
+            };
+
+            return errorMessages[errorCode] || error.message || 'An error occurred. Please try again.';
+        }
+
+        // Password toggle
+        window.togglePassword = function (inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                icon.textContent = '👁️';
+            }
+        };
+
+        // Password Strength Checker
+        const signupPassword = document.getElementById('signupPassword');
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthLabel = document.getElementById('strengthLabel');
+        const strengthText = document.getElementById('strengthText');
+        const strengthIcon = document.getElementById('strengthIcon');
+        const strengthPercentage = document.getElementById('strengthPercentage');
+        const passwordStrength = document.getElementById('passwordStrength');
+
+        signupPassword.addEventListener('input', function () {
+            const password = this.value;
+
+            if (password.length === 0) {
+                passwordStrength.classList.remove('active');
+                return;
+            }
+
+            passwordStrength.classList.add('active');
+
+            // Check requirements (keeping original 6+ minimum for basic requirement)
+            const hasLength = password.length >= 8;
+            const hasUppercase = /[A-Z]/.test(password);
+            const hasLowercase = /[a-z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+            // Update requirement indicators
+            document.getElementById('req-length').classList.toggle('met', hasLength);
+            document.getElementById('req-uppercase').classList.toggle('met', hasUppercase);
+            document.getElementById('req-lowercase').classList.toggle('met', hasLowercase);
+            document.getElementById('req-number').classList.toggle('met', hasNumber);
+            document.getElementById('req-special').classList.toggle('met', hasSpecial);
+
+            // Update requirement icons
+            document.querySelectorAll('.requirement').forEach(req => {
+                const icon = req.querySelector('.requirement-icon');
+                if (req.classList.contains('met')) {
+                    icon.textContent = '✓';
+                } else {
+                    icon.textContent = '';
+                }
+            });
+
+            // Calculate strength (minimum 6 chars as per original, but encourage 8+)
+            let strength = 0;
+            if (password.length >= 6) strength += 10; // Basic minimum
+            if (hasLength) strength += 20; // Encourage 8+
+            if (hasUppercase) strength += 20;
+            if (hasLowercase) strength += 20;
+            if (hasNumber) strength += 15;
+            if (hasSpecial) strength += 15;
+
+            // Cap at 100%
+            strength = Math.min(strength, 100);
+
+            // Update percentage
+            strengthPercentage.textContent = strength + '%';
+
+            // Update bar
+            strengthBar.style.width = strength + '%';
+
+            // Update label and color
+            strengthBar.className = 'strength-bar';
+            strengthLabel.className = 'strength-label';
+
+            if (strength <= 40) {
+                strengthBar.classList.add('weak');
+                strengthLabel.classList.add('weak');
+                strengthText.textContent = 'Weak';
+                strengthIcon.textContent = '⚠️';
+            } else if (strength <= 60) {
+                strengthBar.classList.add('fair');
+                strengthLabel.classList.add('fair');
+                strengthText.textContent = 'Fair';
+                strengthIcon.textContent = '😐';
+            } else if (strength <= 80) {
+                strengthBar.classList.add('good');
+                strengthLabel.classList.add('good');
+                strengthText.textContent = 'Good';
+                strengthIcon.textContent = '😊';
+            } else {
+                strengthBar.classList.add('strong');
+                strengthLabel.classList.add('strong');
+                strengthText.textContent = 'Strong';
+                strengthIcon.textContent = '💪';
+            }
+        });
+
+        // Form switching
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const showSignupBtn = document.getElementById('showSignup');
+        const showLoginBtn = document.getElementById('showLogin');
+
+        showSignupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'block';
+            window.location.hash = 'signup';
+        });
+
+        showLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupForm.style.display = 'none';
+            loginForm.style.display = 'block';
+            window.location.hash = 'login';
+        });
+
+        // Check URL hash on load
+        if (window.location.hash === '#signup') {
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'block';
+        }
+
+        // Login
+        document.getElementById('loginFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginBtn = document.getElementById('loginBtn');
+            const errorDiv = document.getElementById('loginError');
+            const errorText = document.getElementById('loginErrorText');
+
+            loginBtn.querySelector('.btn-text').style.display = 'none';
+            loginBtn.querySelector('.btn-loader').style.display = 'inline';
+            loginBtn.disabled = true;
+            errorDiv.style.display = 'none';
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                localStorage.setItem('userId', userCredential.user.uid);
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                console.error('Login error:', error);
+                errorText.textContent = getErrorMessage(error);
+                errorDiv.style.display = 'flex';
+            } finally {
+                loginBtn.querySelector('.btn-text').style.display = 'inline';
+                loginBtn.querySelector('.btn-loader').style.display = 'none';
+                loginBtn.disabled = false;
+            }
+        });
+
+        // Signup
+        document.getElementById('signupFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const password = document.getElementById('signupPassword').value;
+
+            // Validate password strength (minimum 6 characters as per original)
+            if (password.length < 6) {
+                document.getElementById('signupErrorText').textContent = 'Password must be at least 6 characters long.';
+                document.getElementById('signupError').style.display = 'flex';
+                return;
+            }
+
+            const formData = {
+                email: document.getElementById('signupEmail').value,
+                password: password,
+                name: document.getElementById('signupName').value,
+                phone: document.getElementById('signupPhone').value,
+                village: document.getElementById('signupVillage').value,
+                state: document.getElementById('signupState').value,
+                landSize: document.getElementById('signupLandSize').value,
+                soilType: document.getElementById('signupSoilType').value
+            };
+
+            const signupBtn = document.getElementById('signupBtn');
+            const errorDiv = document.getElementById('signupError');
+            const errorText = document.getElementById('signupErrorText');
+
+            signupBtn.querySelector('.btn-text').style.display = 'none';
+            signupBtn.querySelector('.btn-loader').style.display = 'inline';
+            signupBtn.disabled = true;
+            errorDiv.style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_URL}/auth/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Sign in with email and password after successful signup
+                    // Note: This works because Admin SDK creates a proper user with password
+                    const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+                    localStorage.setItem('userId', userCredential.user.uid);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    throw new Error(data.error || 'Signup failed');
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                errorText.textContent = getErrorMessage(error);
+                errorDiv.style.display = 'flex';
+            } finally {
+                signupBtn.querySelector('.btn-text').style.display = 'inline';
+                signupBtn.querySelector('.btn-loader').style.display = 'none';
+                signupBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
