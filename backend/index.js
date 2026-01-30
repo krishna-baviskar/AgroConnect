@@ -61,8 +61,10 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`🚀 AgroConnect Backend running on port ${PORT}`);
-  console.log(`📍 API: http://localhost:${PORT}`);
+const HOST = '0.0.0.0'; // Bind to all interfaces for Render
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 AgroConnect Backend running on ${HOST}:${PORT}`);
+  console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🏥 Health: http://localhost:${PORT}/health`);
+  console.log(`🔥 Firebase Project: ${process.env.FIREBASE_PROJECT_ID || 'Not configured'}`);
 });
