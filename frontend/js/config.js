@@ -19,7 +19,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
 
-// API URL
-const API_URL = 'http://localhost:3000/api';
+// API URL - automatically detects environment
+// In production (Vercel), use Render backend URL
+// In development (local), use localhost
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000/api'
+    : 'https://agroconnect-ut0u.onrender.com/api';
 
 export { app, auth, analytics, API_URL };
